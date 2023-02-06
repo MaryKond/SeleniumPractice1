@@ -1,7 +1,4 @@
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
@@ -26,17 +23,26 @@ public class LoginPageTest {
 //    @AfterAll
 //    public static void closeBrowser(){
 //        SharedDriver.closeDriver();
-//    }
-    @AfterEach
-    public void testTearDown() throws InterruptedException {
-       driver.get(HOME_PAGE_FACEBOOK);
+
+    @BeforeEach
+    public void testStart() throws InterruptedException {
+            driver.manage().deleteAllCookies(); //delete all cookies
+            Thread.sleep(4000); //wait 7 seconds to clear cookies.
+        driver.get(HOME_PAGE_FACEBOOK);
         driver.findElement(By.xpath("//*[text()='Create new account']")).click();
         Thread.sleep(1000);
    }
+    @AfterEach
+    public void testTearDown() throws InterruptedException {
+        driver.get(HOME_PAGE_FACEBOOK);
+        driver.findElement(By.xpath("//*[text()='Create new account']")).click();
+        Thread.sleep(1000);
+    }
 
 
 
-//    @ParameterizedTest
+//    @P
+//    arameterizedTest
 //    @ValueSource(ints={-10,0,27,36677})
 //    public void mobileNumberOrEmail(){
 
@@ -80,25 +86,25 @@ public class LoginPageTest {
 
 
     }
-
-//        public void firstName(String name){
-//            WebElement firstName=driver.findElement(By.xpath("//input[@name='firstname']"));
-//            assertNotNull(firstName);
-//            firstName.click();
-//            firstName.sendKeys(name);
-//            String firstNameValue= firstName.getAttribute("value");
-//            assertEquals(name,firstNameValue);
 //
-//       }
+////        public void firstName(String name){
+////            WebElement firstName=driver.findElement(By.xpath("//input[@name='firstname']"));
+////            assertNotNull(firstName);
+////            firstName.click();
+////            firstName.sendKeys(name);
+////            String firstNameValue= firstName.getAttribute("value");
+////            assertEquals(name,firstNameValue);
+////
+////       }
     @Test
     public void allValidDataTest ()throws InterruptedException {
-        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Valentina");
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Kole");
 
-        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Kosar");
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Mortinez");
 
-        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("valia.kosar@gmail.com");
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("morganez1@gmail.com");
 
-        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("valia.kosar@gmail.com");
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("morganez1@gmail.com");
 
         driver.findElement(By.id("password_step_input")).sendKeys("Sterteo!1234!");
 
@@ -111,7 +117,7 @@ public class LoginPageTest {
         driver.findElement(By.xpath("//label[text()='Female']")).click();
 
         driver.findElement(By.name("websubmit")).click();
-        Thread.sleep(10000);
+        Thread.sleep(15000);
         String actualResult=driver.getTitle();
         String expectedResult="Enter the code from your email";
         assertEquals(expectedResult, actualResult, "Titles do not match");
@@ -130,7 +136,6 @@ public class LoginPageTest {
 
         driver.findElement(By.id("password_step_input")).sendKeys("Teast1234!");
 
-
         driver.findElement(By.xpath("//select[@name ='birthday_month']")).sendKeys("Jan");
 
         driver.findElement(By.xpath("//select[@name ='birthday_day']")).sendKeys("25");
@@ -146,14 +151,113 @@ public class LoginPageTest {
         assertEquals(HOME_PAGE_FACEBOOK, actualURL, "url do not match");
 
     }
+    @ParameterizedTest
+    @ValueSource(strings = {"", "12jh67","!@#Okjh"})
+    public void invalidLastNameTest (String b) throws InterruptedException {
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
 
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys(b);
 
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("johnsmith@gmail.com");
 
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("johnsmith@gmail.com");
 
+        driver.findElement(By.id("password_step_input")).sendKeys("Teast1234!");
 
+        driver.findElement(By.xpath("//select[@name ='birthday_month']")).sendKeys("Jan");
 
-//  driver.findElement(By.xpath("//*[text()='Create new account']")).click();
-//  Thread.sleep(1000);
+        driver.findElement(By.xpath("//select[@name ='birthday_day']")).sendKeys("25");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_year']")).sendKeys("2002");
+
+        driver.findElement(By.xpath("//label[text()='Female']")).click();
+
+        driver.findElement(By.name("websubmit")).click();
+        Thread.sleep(7000);
+
+        String actualURL = driver.getCurrentUrl();
+        assertEquals(HOME_PAGE_FACEBOOK, actualURL, "url do not match");
+
+    }
+    @ParameterizedTest
+    @ValueSource(strings = {"","!@#Okjh@bb", "Joe Smith <john.smith@gmail.com>"})
+    public void invalidEmailTest (String c) throws InterruptedException {
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
+
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Prokhorov");
+
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys(c);
+
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys(c);
+
+        driver.findElement(By.id("password_step_input")).sendKeys("Teast1234!");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_month']")).sendKeys("Jan");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_day']")).sendKeys("25");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_year']")).sendKeys("2002");
+
+        driver.findElement(By.xpath("//label[text()='Female']")).click();
+
+        driver.findElement(By.name("websubmit")).click();
+        Thread.sleep(1000);
+
+        String actualURL = driver.getCurrentUrl();
+        assertEquals(HOME_PAGE_FACEBOOK, actualURL, "url do not match");
+
+    }
+    @ParameterizedTest
+    @ValueSource(strings = {"","@#%11", "aaaaaa"})
+    public void invalidPasswordTest (String d) throws InterruptedException {
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
+
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Popko");
+
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("johnsmith@gmail.com");
+
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("johnsmith@gmail.com");
+
+        driver.findElement(By.id("password_step_input")).sendKeys(d);
+
+        driver.findElement(By.xpath("//select[@name ='birthday_month']")).sendKeys("Jan");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_day']")).sendKeys("25");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_year']")).sendKeys("2002");
+
+        driver.findElement(By.xpath("//label[text()='Female']")).click();
+
+        driver.findElement(By.name("websubmit")).click();
+        Thread.sleep(10000);
+
+        String actualURL = driver.getCurrentUrl();
+        assertEquals(HOME_PAGE_FACEBOOK, actualURL, "urls do not match");
+    }
+    @Test
+    public void genderNotChosenTest () throws InterruptedException {
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
+
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Popko");
+
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("johnsmith@gmail.com");
+
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("johnsmith@gmail.com");
+
+        driver.findElement(By.id("password_step_input")).sendKeys("Asd1234%$#");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_month']")).sendKeys("Jan");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_day']")).sendKeys("25");
+
+        driver.findElement(By.xpath("//select[@name ='birthday_year']")).sendKeys("2002");
+
+        driver.findElement(By.name("websubmit")).click();
+        Thread.sleep(1000);
+
+        String actualURL = driver.getCurrentUrl();
+        assertEquals(HOME_PAGE_FACEBOOK, actualURL, "urls do not match");
+    }
 
 
 }
