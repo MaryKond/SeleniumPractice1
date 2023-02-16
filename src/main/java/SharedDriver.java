@@ -13,12 +13,14 @@ public class SharedDriver {
     public  WebDriver getWebDriver(){
         if(webDriver==null){
             WebDriverManager.chromedriver().setup();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--incognito");
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-            options.merge(capabilities);
-            webDriver = new ChromeDriver(options);
+            // incognito mode
+//            ChromeOptions options = new ChromeOptions();
+//            options.addArguments("--incognito");
+//            DesiredCapabilities capabilities = new DesiredCapabilities();
+//            capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+//            options.merge(capabilities);
+//            webDriver = new ChromeDriver(options);
+            webDriver = new ChromeDriver();
 
 
         }

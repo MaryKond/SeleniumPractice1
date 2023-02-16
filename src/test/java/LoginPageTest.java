@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class LoginPageTest {
-    private static final String HOME_PAGE_FACEBOOK="https://www.facebook.com/";
+    private static final String HOME_PAGE_FACEBOOK = "https://www.facebook.com/";
     WebDriver driver;
     SharedDriver sd = new SharedDriver();
 
