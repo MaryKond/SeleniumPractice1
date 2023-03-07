@@ -11,22 +11,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
     public class PositiveLoginPageTest {
         private static final String HOME_PAGE_FACEBOOK = "https://www.facebook.com/";
-        WebDriver driver;
-        SharedDriver sd = new SharedDriver();
+        static WebDriver driver;
+        //SharedDriver sd = new SharedDriver();
+        @BeforeAll
+        public static void setUp(){
+            driver= SharedDriver.getWebDriver();
+            driver.get(HOME_PAGE_FACEBOOK);}
 
         @BeforeEach
         public void testStart() throws InterruptedException {
 
-            driver= sd.getWebDriver();
+            driver= SharedDriver.getWebDriver();
             driver.get(HOME_PAGE_FACEBOOK);
             driver.findElement(By.xpath("//*[text()='Create new account']")).click();
             Thread.sleep(1000);
         }
-        @AfterEach
-        public void testTearDown() throws InterruptedException {
-            sd.closeDriver();
-
-        }
+//        @AfterEach
+//        public void testTearDown() throws InterruptedException {
+//            driver.get(HOME_PAGE_FACEBOOK);}
+//
+//        }
 
 
 
@@ -60,18 +64,17 @@ import static org.junit.jupiter.api.Assertions.*;
         WebElement signUpButton = driver.findElement(By.xpath("//button[@type='submit']"));
         assertNotNull(signUpButton);
 
-
     }
 
     @Test
     public void allValidDataTest ()throws InterruptedException {
-        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Kolina");
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Kolin");
 
-        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Mortinorez");
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Mortigo");
 
-        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("kkmorganorez@gmail.com");
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("kmorgo@gmail.com");
 
-        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("kkmorganorez@gmail.com");
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("kmorgo@gmail.com");
 
         driver.findElement(By.id("password_step_input")).sendKeys("Sterteo!1234!");
 

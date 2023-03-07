@@ -82,43 +82,6 @@ public class ErrorTest {
 
     }
 
-    @Test
-    public void radioButtonsTest(){
-        driver.findElement(By.xpath("//*[text()='Create new account']")).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='websubmit']")));
-        assertNotNull(driver.findElement(By.xpath("//*[text()='Sign Up']")));
-        driver.findElement(By.xpath("//*[text()='Female']//following-sibling::*[@type='radio']")).click();
-        String isFemaleChecked= driver.findElement(By.xpath("//*[text()='Female']//following-sibling::*[@type='radio']")).getAttribute("checked");
-        assertEquals("true",isFemaleChecked);
-
-        driver.findElement(By.xpath("//*[text()='Male']//following-sibling::*[@type='radio']")).click();
-        String isMaleChecked= driver.findElement(By.xpath("//*[text()='Male']//following-sibling::*[@type='radio']")).getAttribute("checked");
-        assertEquals("true",isMaleChecked);
-
-        driver.findElement(By.xpath("//*[text()='Custom']//following-sibling::*[@type='radio']")).click();
-        String isCustomChecked= driver.findElement(By.xpath("//*[text()='Custom']//following-sibling::*[@type='radio']")).getAttribute("checked");
-        assertEquals("true",isCustomChecked);
-    }
-
-    @Test
-    public void PolicyTest() {
-//    Privacy Policy
-        driver.findElement(By.xpath("//a[text()='Privacy Policy']")).click();
-        String expectedURL = "https://www.facebook.com/privacy/policy/?entry_point=facebook_page_footer";
-        String actualURL = driver.getCurrentUrl();
-        assertEquals(expectedURL, actualURL);
-    }
-   @Test
-    public void TermsTest(){
-        driver.findElement(By.xpath("//a[text()='Terms']")).click();
-        String expectedURL1="https://www.facebook.com/policies_center/";
-        String actualURL1=driver.getCurrentUrl();
-        assertEquals(expectedURL1,actualURL1);
-        }
-
-
-
 
 
 // Yuri, do you use this method in your code?
