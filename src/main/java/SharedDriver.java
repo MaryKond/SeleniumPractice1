@@ -8,9 +8,9 @@ import org.openqa.selenium.safari.SafariDriver;
 
 public class SharedDriver {
 
-    private WebDriver webDriver;
+    private static WebDriver webDriver;
  
-    public  WebDriver getWebDriver(){
+    public static WebDriver getWebDriver(){
         if(webDriver==null){
             WebDriverManager.chromedriver().setup();
             // incognito mode
@@ -21,14 +21,23 @@ public class SharedDriver {
 //            options.merge(capabilities);
 //            webDriver = new ChromeDriver(options);
             webDriver = new ChromeDriver();
+            webDriver.manage().window().maximize();
+
 
 
         }
         return webDriver;
     }
-    public void closeDriver(){
+    public static void closeDriver(){
         if(webDriver!=null){
             webDriver.close();
+        }
+
+
+    }
+    public static void quitDriver(){
+        if(webDriver!=null){
+            webDriver.quit();
         }
 
 
