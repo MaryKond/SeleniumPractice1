@@ -28,6 +28,10 @@ public class PolicyTermsTest {
         public static void endTest() {
             driver.close();
         }
+    @AfterAll
+    public static void closeBrowser() {
+        driver.close();
+    }
 
         @Test
         public void PolicyTest() {

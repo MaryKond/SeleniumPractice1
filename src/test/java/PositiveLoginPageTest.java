@@ -5,8 +5,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+    import org.openqa.selenium.support.ui.ExpectedConditions;
+    import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.junit.jupiter.api.Assertions.*;
+    import java.time.Duration;
+
+    import static org.junit.jupiter.api.Assertions.*;
 
 
     public class PositiveLoginPageTest {
@@ -26,11 +30,10 @@ import static org.junit.jupiter.api.Assertions.*;
             driver.findElement(By.xpath("//*[text()='Create new account']")).click();
             Thread.sleep(1000);
         }
-//        @AfterEach
-//        public void testTearDown() throws InterruptedException {
-//            driver.get(HOME_PAGE_FACEBOOK);}
-//
-//        }
+        @AfterAll
+    public static void closeBrowser() {
+        driver.quit();
+    }
 
 
 
@@ -68,13 +71,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Test
     public void allValidDataTest ()throws InterruptedException {
-        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Kolin");
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Ritana");
 
-        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Mortigo");
+        driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Skinner");
 
-        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("kmorgo@gmail.com");
+        driver.findElement(By.xpath("//input[@name ='reg_email__']")).sendKeys("ritanas@gmail.com");
 
-        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("kmorgo@gmail.com");
+        driver.findElement(By.xpath("//input[@name ='reg_email_confirmation__']")).sendKeys("ritanas@gmail.com");
 
         driver.findElement(By.id("password_step_input")).sendKeys("Sterteo!1234!");
 
@@ -87,7 +90,9 @@ import static org.junit.jupiter.api.Assertions.*;
         driver.findElement(By.xpath("//label[text()='Female']")).click();
 
         driver.findElement(By.name("websubmit")).click();
-        Thread.sleep(8000);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//button[@name='websubmit']")));
+
         String actualResult=driver.getCurrentUrl();//??
         String expectedResult="https://www.facebook.com/checkpoint";
         assertTrue(actualResult.contains(expectedResult));// string contains, assertTrue,

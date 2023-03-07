@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -20,6 +21,11 @@ public class DavikMenusTest {
         driver = SharedDriver.getWebDriver();
         driver.get(DAVIK_URL);
     }
+    @AfterAll
+    public static void closeBrowser() {
+        driver.quit();
+    }
+
    @Test
     public void actionTest() {
 //        pause();
@@ -55,7 +61,6 @@ public class DavikMenusTest {
        }
        String actualURL = driver.getCurrentUrl();
        assertEquals(expectedURL, actualURL);
-
 
    }
 }

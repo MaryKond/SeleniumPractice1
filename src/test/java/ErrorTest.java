@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,10 @@ public class ErrorTest {
     @AfterEach
     public void tearDown(){
         driver.get(HOME_PAGE);
+    }
+    @AfterAll
+    public static void closeBrowser() {
+        driver.quit();
     }
 
     @Test

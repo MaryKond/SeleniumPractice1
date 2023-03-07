@@ -4,47 +4,51 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class NegativeLoginPageTest {
     private static final String HOME_PAGE_FACEBOOK = "https://www.facebook.com/";
-    WebDriver driver;
-    SharedDriver sd = new SharedDriver();
+    static WebDriver driver;
 
-
-//    @BeforeAll
-//    public static void classSetup() throws InterruptedException {
-//        driver= SharedDriver.getWebDriver();
-//        driver.get(HOME_PAGE_FACEBOOK);
-//        driver.findElement(By.xpath("//*[text()='Create new account']")).click();
-//        Thread.sleep(1000);
-//    }
-//    @AfterAll
-//    public static void closeBrowser() {
-//        SharedDriver.closeDriver();
-//    }
-
-    @BeforeEach
-    public void testStart() throws InterruptedException {
-
-        driver= sd.getWebDriver();
+    @BeforeAll
+    public static void classSetup() throws InterruptedException {
+        driver = SharedDriver.getWebDriver();
         driver.get(HOME_PAGE_FACEBOOK);
-        driver.findElement(By.xpath("//*[text()='Create new account']")).click();
         Thread.sleep(1000);
-   }
-    @AfterEach
-    public void testTearDown() throws InterruptedException {
-        sd.closeDriver();
 
     }
 
+    @AfterAll
+    public static void closeBrowser() {
+        SharedDriver.closeDriver();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        driver.get(HOME_PAGE_FACEBOOK);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[text()='Create new account']"))).click();
+
+    }
+
+    @BeforeEach
+    public void newTest() {
+        driver.findElement(By.xpath("//*[text()='Create new account']")).click();
+        assertNotNull(driver.findElement(By.xpath("//*[text()='Sign Up']")));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='websubmit']")));
+    }
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "1234567","!@#Okjh"})
-    public void invalidNameTest (String a) throws InterruptedException {
+    @ValueSource(strings = {"", "1234567", "!@#Okjh"})
+    public void invalidNameTest(String a) throws InterruptedException {
         driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys(a);
 
         driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Vogan");
@@ -70,9 +74,10 @@ public class NegativeLoginPageTest {
         assertEquals(HOME_PAGE_FACEBOOK, actualURL, "url do not match");
 
     }
+
     @ParameterizedTest
-    @ValueSource(strings = {"", "12jh67","!@#Okjh"})
-    public void invalidLastNameTest (String b) throws InterruptedException {
+    @ValueSource(strings = {"", "12jh67", "!@#Okjh"})
+    public void invalidLastNameTest(String b) throws InterruptedException {
         driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
 
         driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys(b);
@@ -98,9 +103,10 @@ public class NegativeLoginPageTest {
         assertEquals(HOME_PAGE_FACEBOOK, actualURL, "url do not match");
 
     }
+
     @ParameterizedTest
-    @ValueSource(strings = {" ","!@#Okjh@bb", "Joe Smith <john.smith@gmail.com>"})
-    public void invalidEmailTest (String c) throws InterruptedException {
+    @ValueSource(strings = {" ", "!@#Okjh@bb", "Joe Smith <john.smith@gmail.com>"})
+    public void invalidEmailTest(String c) throws InterruptedException {
         driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
 
         driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Prokhorovich");
@@ -126,9 +132,10 @@ public class NegativeLoginPageTest {
         assertEquals(HOME_PAGE_FACEBOOK, actualURL, "url do not match");
 
     }
+
     @ParameterizedTest
-    @ValueSource(strings = {"","@#%11", "aaaaaa"})
-    public void invalidPasswordTest (String d) throws InterruptedException {
+    @ValueSource(strings = {"", "@#%11", "aaaaaa"})
+    public void invalidPasswordTest(String d) throws InterruptedException {
         driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
 
         driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Popkorenko");
@@ -153,8 +160,9 @@ public class NegativeLoginPageTest {
         String actualURL = driver.getCurrentUrl();
         assertEquals(HOME_PAGE_FACEBOOK, actualURL, "urls do not match");
     }
+
     @Test
-    public void genderNotChosenTest () throws InterruptedException {
+    public void genderNotChosenTest() throws InterruptedException {
         driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Konstantin");
 
         driver.findElement(By.xpath("//input[@name ='lastname']")).sendKeys("Popkovich");
@@ -177,11 +185,6 @@ public class NegativeLoginPageTest {
         String actualURL = driver.getCurrentUrl();
         assertEquals(HOME_PAGE_FACEBOOK, actualURL, "urls do not match");
     }
-
-
-
-
-
 
 
 //    @Test

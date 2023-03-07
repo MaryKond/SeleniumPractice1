@@ -39,7 +39,7 @@ public class MonthDayYearTest {
 
     @AfterAll
     public static void closeBrowser() {
-        driver.close();
+        driver.quit();
     }
 
 
